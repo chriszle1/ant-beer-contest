@@ -265,7 +265,7 @@ input[type=number]{font:500 1em var(--body);width:8.5rem;padding:8px 10px;border
     </div>
   </div>
 
-  <p class="foot">Calls were made as fully diluted market caps, with $83 a share taken as $1.5tn. Each call is converted to a share price on that basis, and the gap is the distance between the call and the price, as a share of the price. Prices come from a live quote feed where available, topped up from Google Finance every 15 minutes or so. Not investment advice, just a beer bet.</p>
+  <p class="foot">Calls were made as fully diluted market caps, with $83 a share taken as $1.5tn. Each call is converted to a share price on that basis, and the gap is the distance between the call and the price, as a share of the price. Prices come from a live quote feed where available, topped up from Google Finance every 15 minutes or so. Not investment advice, just a beer bet. <span id="feedStatus"></span></p>
 </main>
 
 <script>
@@ -492,7 +492,7 @@ Array.prototype.forEach.call(lookBtns,function(b){b.addEventListener("click",fun
 var look0="dog";try{look0=localStorage.getItem("ant-look")||"dog";}catch(e){}
 
 /* ---------- live prices: ticks.json from this site, plus a quote service if a key is set ---------- */
-var FINNHUB_KEY="";   // free finnhub.io key; leave empty to rely on ticks.json only
+var FINNHUB_KEY="dbvivh9r01qgh2a5q3qgdbvivh9r01qgh2a5q3r0";   // free finnhub.io key; leave empty to rely on ticks.json only
 var SYMBOL="ANT", quoteFails=0, quoteOk=false;
 function clean(d){
   if(!d||typeof d.t!=="number"||typeof d.p!=="number")return null;
@@ -500,6 +500,7 @@ function clean(d){
   return {t:d.t,p:Math.round(d.p*100)/100,src:typeof d.src==="string"?d.src.slice(0,60):"",final:d.final===true};
 }
 var fileTicks=[], liveTicks=[];
+function feed(t){var f=document.getElementById("feedStatus");if(f)f.textContent=t;}
 function merge(){dbTicks=fileTicks.concat(liveTicks);render();}
 function pollFile(){
   fetch("ticks.json?v="+Date.now(),{cache:"no-store"}).then(function(r){return r.ok?r.json():null;}).then(function(arr){
@@ -514,12 +515,12 @@ function pollQuote(){
     if(!r.ok)throw new Error(r.status);return r.json();
   }).then(function(q){
     if(!q||!(q.c>1))throw new Error("no quote");
-    quoteFails=0;quoteOk=true;
+    quoteFails=0;quoteOk=true;feed("Live quote feed connected, checking every 15 seconds.");
     var t=q.t?q.t*1000:Date.now(); if(t<T0)return;      // a stale or pre-open quote is not today's price
     var c=clean({t:t,p:q.c,src:"Finnhub live quote"});
     var last=liveTicks[liveTicks.length-1];
     if(c&&(!last||last.t!==c.t||last.p!==c.p)){liveTicks.push(c);if(liveTicks.length>2000)liveTicks.shift();merge();}
-  }).catch(function(){quoteFails++;});
+  }).catch(function(e){quoteFails++;if(!quoteOk||quoteFails>=4)feed("Live quote feed not available ("+(e&&e.message==="no quote"?"no ANT quote returned":(e&&/^\d+$/.test(e.message)?"error "+e.message:"blocked or offline"))+"), so prices update every 15 minutes or so.");});
 }
 pollFile();setInterval(pollFile,30000);
 pollQuote();setInterval(pollQuote,15000);
