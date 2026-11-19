@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-look="dc">
+<html lang="en" data-look="dog">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -237,7 +237,7 @@ input[type=number]{font:500 1em var(--body);width:8.5rem;padding:8px 10px;border
 
   <header class="top">
     <div>
-      <p class="eyebrow" id="eyebrow">Hall ANT · Rack 01 · Anthropic (ANT) on Nasdaq · day one, 19 Nov 2026</p>
+      <p class="eyebrow" id="eyebrow">The 21:00 at Nasdaq · Anthropic (ANT) · day one, 19 Nov 2026</p>
       <h1>ANT Beer Contest</h1>
       <p class="lede">Six calls on where ANT finishes its first day. Closest to the closing price wins.</p>
     </div>
@@ -304,8 +304,8 @@ input[type=number]{font:500 1em var(--body);width:8.5rem;padding:8px 10px;border
   <div class="looks">
     <span id="looksLabel">Look</span>
     <div class="seg" role="group" aria-labelledby="looksLabel">
-      <button type="button" data-look-btn="dc" aria-pressed="true">Data hall</button>
-      <button type="button" data-look-btn="dog" aria-pressed="false">Dog track</button>
+      <button type="button" data-look-btn="dog" aria-pressed="true">Dog track</button>
+      <button type="button" data-look-btn="dc" aria-pressed="false">Data hall</button>
       <button type="button" data-look-btn="tele" aria-pressed="false">Teletext</button>
       <button type="button" data-look-btn="clean" aria-pressed="false">Clean</button>
     </div>
@@ -532,18 +532,18 @@ $("whatifReset").addEventListener("click",function(){scenario=null;render();});
 var rz;window.addEventListener("resize",function(){clearTimeout(rz);rz=setTimeout(drawChart,120);});
 var lookBtns=document.querySelectorAll("[data-look-btn]");
 function setLook(k,keep){
-  if(["dc","dog","tele","clean"].indexOf(k)<0)k="dc";
+  if(["dc","dog","tele","clean"].indexOf(k)<0)k="dog";
   var dc=k==="dc";
   $("eyebrow").textContent=(dc?"Hall ANT · Rack 01":"The 21:00 at Nasdaq")+" · Anthropic (ANT)"+(dc?" on Nasdaq":"")+" · day one, 19 Nov 2026";
   $("raceHint").textContent=dc?"A fuller line is closer to the price. A full pour is a perfect call.":"Further right is closer to the price. The post is a perfect call.";
   $("axisEnd").textContent=dc?"Full pour":"Bang on";
   if(k==="clean")document.documentElement.removeAttribute("data-look");else document.documentElement.setAttribute("data-look",k);
   Array.prototype.forEach.call(lookBtns,function(b){b.setAttribute("aria-pressed",b.getAttribute("data-look-btn")===k);});
-  if(keep){try{localStorage.setItem("ant-look2",k);}catch(e){}}
+  if(keep){try{localStorage.setItem("ant-look3",k);}catch(e){}}
   drawChart();
 }
 Array.prototype.forEach.call(lookBtns,function(b){b.addEventListener("click",function(){setLook(b.getAttribute("data-look-btn"),true);});});
-var look0="dc";try{look0=localStorage.getItem("ant-look2")||"dc";}catch(e){}
+var look0="dog";try{look0=localStorage.getItem("ant-look3")||"dog";}catch(e){}
 
 /* ---------- live prices: ticks.json from this site, plus a quote service if a key is set ---------- */
 var FINNHUB_KEY="dbvivh9r01qgh2a5q3qgdbvivh9r01qgh2a5q3r0";   // free finnhub.io key; leave empty to rely on ticks.json only
