@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" data-look="dog">
+<html lang="en" data-look="dc">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ANT Beer Contest</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=VT323&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=VT323&display=swap" rel="stylesheet">
 <style>
 /* Layout idea: a six-trap dog-track racecard. One lane per mate, each in a numbered trap jacket,
    then the price path running through the bands of price where each mate leads, to the 21:00 bell.
@@ -62,6 +62,19 @@
   --display:"VT323","Courier New",monospace; --body:"VT323","Courier New",monospace;
   --base:21px; --chart-fs:17px; --radius:0px; --h-weight:400; --h-space:.02em; color-scheme:dark;
 }
+/* Data hall: rack-black faceplates, status LEDs, asset-tag type. Lager amber is the one accent, and it only ever means beer. */
+:root[data-look="dc"]{
+  --bg:#0f1113; --surface:#1a1d21; --ink:#eceef0; --ink-2:#a6adb5; --ink-3:#737b84;
+  --line:#2d3238; --line-strong:#4a5159; --hot:#f2a41f; --hot-ink:#1b1203; --warn:#ff6b57; --band:.2;
+  --c1:#3987e5; --c2:#d95926; --c3:#199e70; --c4:#c98500; --c5:#d55181; --c6:#0ca30c;
+  --n1:#fff; --n2:#fff; --n3:#fff; --n4:#fff; --n5:#fff; --n6:#fff;
+  --l1:var(--c1); --l2:var(--c2); --l3:var(--c3); --l4:var(--c4); --l5:var(--c5); --l6:var(--c6);
+  --b1:var(--c1); --b2:var(--c2); --b3:var(--c3); --b4:var(--c4); --b5:var(--c5); --b6:var(--c6);
+  --j6:var(--c6); --jr:3px; --jacket-edge:transparent;
+  --display:"Chakra Petch","Arial Narrow",Arial,sans-serif; --body:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;
+  --mono:"IBM Plex Mono","Courier New",monospace;
+  --radius:4px; --h-weight:700; --h-space:.02em; color-scheme:dark;
+}
 *{box-sizing:border-box}
 html,body{margin:0}
 body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:var(--base);line-height:1.4;-webkit-font-smoothing:antialiased}
@@ -89,6 +102,11 @@ p{margin:0}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px}
 .tile-label{font-size:.78em;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-2)}
 .price{font-size:clamp(3.6rem,12vw,6rem);line-height:.95;margin:6px 0 8px}
+.price.up{animation:tickUp 1.4s ease-out}
+.price.down{animation:tickDown 1.4s ease-out}
+@keyframes tickUp{0%{color:#35d07f;transform:translateY(-4px)}}
+@keyframes tickDown{0%{color:#ff5b4d;transform:translateY(4px)}}
+@media (prefers-reduced-motion:reduce){.price.up,.price.down{animation:none}}
 .sub{color:var(--ink-2);font-size:.95em}
 .sub b,.threat b{color:var(--ink);font-weight:600}
 .asof{color:var(--ink-3);font-size:.82em;margin-top:8px}
@@ -174,6 +192,32 @@ input[type=number]{font:500 1em var(--body);width:8.5rem;padding:8px 10px;border
 [data-look="tele"] .sub b,[data-look="tele"] .threat b{color:#ff0;font-weight:400}
 [data-look="tele"] .tag{font-size:.6em;font-weight:400}
 
+/* Data hall structure: perforated door behind, screwed-down faceplates, beer lines for lanes */
+[data-look="dc"] body{background:radial-gradient(circle at 2px 2px,#1d2126 1.3px,transparent 1.8px) 0 0/13px 13px,var(--bg)}
+[data-look="dc"] .card{padding:22px 24px;border-color:#30363c;background:
+  radial-gradient(circle,#7b838c 0 1.4px,#0b0c0e 1.9px 3.4px,transparent 3.9px) left 7px top 7px/9px 9px no-repeat,
+  radial-gradient(circle,#7b838c 0 1.4px,#0b0c0e 1.9px 3.4px,transparent 3.9px) right 7px top 7px/9px 9px no-repeat,
+  radial-gradient(circle,#7b838c 0 1.4px,#0b0c0e 1.9px 3.4px,transparent 3.9px) left 7px bottom 7px/9px 9px no-repeat,
+  radial-gradient(circle,#7b838c 0 1.4px,#0b0c0e 1.9px 3.4px,transparent 3.9px) right 7px bottom 7px/9px 9px no-repeat,
+  linear-gradient(#1d2025,#17191d)}
+[data-look="dc"] h1{font-size:clamp(2.2rem,6.4vw,3.9rem)}
+[data-look="dc"] h2{font-family:var(--mono);font-weight:600;font-size:1rem;letter-spacing:.16em;display:flex;align-items:center;gap:10px}
+[data-look="dc"] h2::before{content:"";width:9px;height:9px;border-radius:50%;background:#35d07f;box-shadow:0 0 8px #35d07f;flex:none}
+[data-look="dc"] .eyebrow,[data-look="dc"] .tile-label,[data-look="dc"] .axis,[data-look="dc"] .who .call,[data-look="dc"] .asof,[data-look="dc"] .countdown-label,[data-look="dc"] .gap .usd{font-family:var(--mono)}
+[data-look="dc"] .countdown,[data-look="dc"] .price{color:var(--hot)}
+[data-look="dc"] .track{height:24px;border:1.5px solid #5b636c;border-radius:12px;background:rgba(255,255,255,.04);overflow:hidden}
+[data-look="dc"] .track::before{top:3px;bottom:3px}
+[data-look="dc"] .track .jacket{display:none}
+[data-look="dc"] .trail{top:0;height:100%;opacity:1;width:max(18px,calc(var(--pos)*100%));
+  background:linear-gradient(#ffd774,#f2a41f 45%,#c4770c);box-shadow:inset -9px 0 0 #fff5d9}
+[data-look="dc"] .rank::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:9px;vertical-align:.18em;background:#ff5b4d}
+[data-look="dc"] .lane[data-rank="2"] .rank::before,[data-look="dc"] .lane[data-rank="3"] .rank::before{background:#f2a41f}
+[data-look="dc"] .lane[data-rank="1"] .rank::before{background:#35d07f;box-shadow:0 0 9px #35d07f}
+[data-look="dc"] .pint{display:block}
+@media (min-width:721px){[data-look="dc"] .axis,[data-look="dc"] .lane{grid-template-columns:3.6em 11.5em minmax(0,1fr) auto}}
+@media (max-width:720px){[data-look="dc"] .axis,[data-look="dc"] .lane{grid-template-columns:3.4em minmax(0,1fr) auto}}
+.pint{display:none;margin-left:auto;flex:none}
+
 @media (max-width:720px){
   .tiles{grid-template-columns:1fr}
   .clock{align-items:flex-start}
@@ -193,9 +237,9 @@ input[type=number]{font:500 1em var(--body);width:8.5rem;padding:8px 10px;border
 
   <header class="top">
     <div>
-      <p class="eyebrow">The 21:00 at Nasdaq · Anthropic (ANT) · day one, 19 Nov 2026</p>
+      <p class="eyebrow" id="eyebrow">Hall ANT · Rack 01 · Anthropic (ANT) on Nasdaq · day one, 19 Nov 2026</p>
       <h1>ANT Beer Contest</h1>
-      <p class="lede">Six runners, six calls on where ANT finishes its first day. Closest to the closing price wins.</p>
+      <p class="lede">Six calls on where ANT finishes its first day. Closest to the closing price wins.</p>
     </div>
     <div class="clock">
       <span class="pill" id="pill" data-state="live"><i></i><span id="pillText">Price as of –</span></span>
@@ -214,7 +258,8 @@ input[type=number]{font:500 1em var(--body);width:8.5rem;padding:8px 10px;border
     <div class="card leader">
       <div>
         <p class="tile-label" id="leaderLabel">In the lead</p>
-        <div class="leader-row"><span class="jacket big" id="leaderJacket"></span><span class="leader-name" id="leaderName">–</span></div>
+        <div class="leader-row"><span class="jacket big" id="leaderJacket"></span><span class="leader-name" id="leaderName">–</span>
+          <svg class="pint" width="46" height="62" viewBox="0 0 46 62" aria-hidden="true"><path d="M9 14h28l-3.4 43a3 3 0 0 1-3 2.8H15.4a3 3 0 0 1-3-2.8z" fill="#f2a41f"/><path d="M9 14h28l-.9 11H9.9z" fill="#ffd774"/><path d="M7 13a5 5 0 0 1 3-9 6 6 0 0 1 10.500-2 6.500 6.500 0 0 1 11 2 5 5 0 0 1 7.500 5.500A4.500 4.500 0 0 1 39 17H7.500A2 2 0 0 1 7 13z" fill="#fff5d9"/><path d="M9 14h28l-3.400 43a3 3 0 0 1-3 2.800H15.400a3 3 0 0 1-3-2.800z" fill="none" stroke="#eceef0" stroke-opacity=".55" stroke-width="1.5"/><path d="M15 26l1.800 26" stroke="#fff" stroke-opacity=".45" stroke-width="2" stroke-linecap="round" fill="none"/></svg></div>
         <p class="sub" id="leaderSub"></p>
       </div>
       <p class="threat" id="threat"></p>
@@ -224,10 +269,10 @@ input[type=number]{font:500 1em var(--body);width:8.5rem;padding:8px 10px;border
   <section class="card">
     <div class="head">
       <h2>The race</h2>
-      <p class="hint">Further right is closer to the price. The post is a perfect call.</p>
+      <p class="hint" id="raceHint">A fuller line is closer to the price. A full pour is a perfect call.</p>
     </div>
     <div class="lanes" id="lanes">
-      <div class="axis"><div class="scale"><span>50% off or worse</span><span>25% off</span><span>Bang on</span></div></div>
+      <div class="axis"><div class="scale"><span>50% off or worse</span><span>25% off</span><span id="axisEnd">Full pour</span></div></div>
     </div>
   </section>
 
@@ -259,7 +304,8 @@ input[type=number]{font:500 1em var(--body);width:8.5rem;padding:8px 10px;border
   <div class="looks">
     <span id="looksLabel">Look</span>
     <div class="seg" role="group" aria-labelledby="looksLabel">
-      <button type="button" data-look-btn="dog" aria-pressed="true">Dog track</button>
+      <button type="button" data-look-btn="dc" aria-pressed="true">Data hall</button>
+      <button type="button" data-look-btn="dog" aria-pressed="false">Dog track</button>
       <button type="button" data-look-btn="tele" aria-pressed="false">Teletext</button>
       <button type="button" data-look-btn="clean" aria-pressed="false">Clean</button>
     </div>
@@ -297,7 +343,7 @@ P.forEach(function(p,i){
 });
 
 var saved={};
-var dbTicks=[], scenario=null, zoom=saved.zoom||"close";
+var dbTicks=[], shown=null, scenario=null, zoom=saved.zoom||"close";
 var $=function(id){return document.getElementById(id);};
 var usd=function(v){return "$"+v.toFixed(2);};
 var tf=new Intl.DateTimeFormat("en-GB",{hour:"2-digit",minute:"2-digit",timeZone:"Europe/London"});
@@ -332,6 +378,10 @@ function render(){
   var fin=!!l.final&&scenario==null, now=Date.now();
   $("priceLabel").textContent=scenario!=null?"What-if closing price":(fin?"Closing price":"Latest price");
   $("price").textContent=usd(price);
+  if(scenario==null){
+    if(shown!=null&&l.p!==shown){var pe=$("price");pe.classList.remove("up","down");void pe.offsetWidth;pe.classList.add(l.p>shown?"up":"down");}
+    shown=l.p;
+  }
   var chg=(price/IPO-1)*100;
   $("priceSub").innerHTML="<b>"+(chg>=0?"+":"")+chg.toFixed(1)+"%</b> on the $83 IPO price · <b>$"+(price/IPO*IPO_CAP).toFixed(2)+"tn</b> fully diluted";
   $("asof").textContent=scenario!=null?("Latest real price is "+usd(l.p)+", as of "+clock(l.t)+" London"):
@@ -482,14 +532,18 @@ $("whatifReset").addEventListener("click",function(){scenario=null;render();});
 var rz;window.addEventListener("resize",function(){clearTimeout(rz);rz=setTimeout(drawChart,120);});
 var lookBtns=document.querySelectorAll("[data-look-btn]");
 function setLook(k,keep){
-  if(["dog","tele","clean"].indexOf(k)<0)k="dog";
+  if(["dc","dog","tele","clean"].indexOf(k)<0)k="dc";
+  var dc=k==="dc";
+  $("eyebrow").textContent=(dc?"Hall ANT · Rack 01":"The 21:00 at Nasdaq")+" · Anthropic (ANT)"+(dc?" on Nasdaq":"")+" · day one, 19 Nov 2026";
+  $("raceHint").textContent=dc?"A fuller line is closer to the price. A full pour is a perfect call.":"Further right is closer to the price. The post is a perfect call.";
+  $("axisEnd").textContent=dc?"Full pour":"Bang on";
   if(k==="clean")document.documentElement.removeAttribute("data-look");else document.documentElement.setAttribute("data-look",k);
   Array.prototype.forEach.call(lookBtns,function(b){b.setAttribute("aria-pressed",b.getAttribute("data-look-btn")===k);});
-  if(keep){try{localStorage.setItem("ant-look",k);}catch(e){}}
+  if(keep){try{localStorage.setItem("ant-look2",k);}catch(e){}}
   drawChart();
 }
 Array.prototype.forEach.call(lookBtns,function(b){b.addEventListener("click",function(){setLook(b.getAttribute("data-look-btn"),true);});});
-var look0="dog";try{look0=localStorage.getItem("ant-look")||"dog";}catch(e){}
+var look0="dc";try{look0=localStorage.getItem("ant-look2")||"dc";}catch(e){}
 
 /* ---------- live prices: ticks.json from this site, plus a quote service if a key is set ---------- */
 var FINNHUB_KEY="dbvivh9r01qgh2a5q3qgdbvivh9r01qgh2a5q3r0";   // free finnhub.io key; leave empty to rely on ticks.json only
